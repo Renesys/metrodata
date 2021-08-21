@@ -8,7 +8,11 @@ def year_trend(df, year):
     sub = df[df['Year'] == year]
     sub = sub.sort_values(by='Month')
     #print(sub.head(10))
-    res = sns.barplot(x=sub['Month'], y=sub['Data'])
+    res = sns.barplot(x=sub['Month'], y=sub['Data'], estimator=np.sum)
+    for p in res.patches:
+        res.annotate("%.0f" % p.get_height(), (p.get_x() + p.get_width()/2, p.get_height()-30),\
+                     ha="center", va="center", fontsize=10, color="black", xytext=(0,10),\
+                     textcoords="offset points")
     plt.show()
 
 def total_trend(df):
