@@ -9,7 +9,7 @@ def year_trend(df, year):
     sub = sub.sort_values(by='Month')
     #print(sub.head(10))
     sns.set_palette('Set3')
-    res = sns.barplot(x=sub['Month'], y=sub['Data'], estimator=np.sum)
+    res = sns.barplot(x='Month', y='Data', data=sub, estimator=np.sum)
     for p in res.patches:
         res.annotate("%.0f" % p.get_height(), (p.get_x() + p.get_width()/2, p.get_height()-30),\
                      ha="center", va="center", fontsize=10, color="black", xytext=(0,10),\
@@ -21,7 +21,7 @@ def total_trend(df):
     df = df.sort_values(by=['YearMonth'])
     #print(df.head(10))
     sns.set_palette('Set3')
-    res = sns.barplot(x=df['YearMonth'], y = df['Data'], estimator=np.sum)
+    res = sns.barplot(x='YearMonth', y ='Data', data=df, estimator=np.sum)
     for p in res.patches:
         val = str(round(int(p.get_height()),-6))[:-6]+"M"
         res.annotate(val, (p.get_x() + p.get_width()/2, p.get_height()-30),\
@@ -34,16 +34,17 @@ def total_trend_by_month(df):
     df = df.sort_values(by=['Year', 'Month'])
     res = sns.barplot(x="Month", y="Data", data=df, hue="Year",
                       estimator=np.sum,
-                      palette='pastel')
+                      palette='pastel',
+                      ci=None)
     for p in res.patches:
         if not pd.isna(p.get_height()):
             val = str(round(int(p.get_height()),-6))[:-6]+"M"
         else:
             val = 0
-        res.annotate(val, (p.get_x() + p.get_width()/2, p.get_height()+30),\
-                     ha="center", va="center", fontsize=10, color="black", xytext=(0,10),\
+        res.annotate(val, (p.get_x() + p.get_width()/2, p.get_height()),\
+                     ha="center", va="center", fontsize=10, color="black", xytext=(0,18),\
                      rotation=90, textcoords="offset points")
-    plt.legend(bbox_to_anchor=(1.02,1), loc='center right', borderaxespad=0)
+    plt.legend(bbox_to_anchor=(1,1.05), loc='center left', borderaxespad=0)
     plt.show()
 
 if __name__ == '__main__':
