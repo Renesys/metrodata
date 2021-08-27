@@ -7,7 +7,6 @@ import numpy as np
 def year_trend(df, year):
     sub = df[df['Year'] == year]
     sub = sub.sort_values(by='Month')
-    #print(sub.head(10))
     sns.set_theme(style='whitegrid', palette='Set2')
     res = sns.barplot(x='Month', y='Data', data=sub, estimator=np.sum, ci=None)
     for p in res.patches:
@@ -23,7 +22,6 @@ def year_trend(df, year):
 def total_trend(df):
     df['YearMonth'] = df['Year'] + df['Month']
     df = df.sort_values(by=['YearMonth'])
-    #print(df.head(10))
     sns.set_theme(style='whitegrid', palette='deep')
     res = sns.barplot(x='YearMonth', y ='Data', data=df, estimator=np.sum, ci=None)
     for p in res.patches:
