@@ -78,7 +78,6 @@ station_num_map = {
     "김포골드라인": ["G1"]
 }
 
-
 def get_json():
     with open('metro.json', encoding='UTF8') as f:
         f_data = json.load(f)
@@ -146,7 +145,7 @@ def get_pos(sta, type):
     return res
 
 def write_csv_all(raw):
-    with open('defined_metro.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    with open('../graph/defined_metro.csv', 'w', newline='', encoding='utf-8') as csvfile:
         csv_writter = csv.writer(csvfile, delimiter=',')
         csv_writter.writerow(
             ["Line", "Station", "Time", "Year", "Month", "Hour", "Type", "Data", "Latitude", "Longitude"])
