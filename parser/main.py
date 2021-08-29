@@ -119,6 +119,8 @@ def mod_station_name(raw_name, line):
         sta = "양평동"
     if sta == "총신대입구":
         sta = "이수"
+    if sta == "신천":
+        sta = "잠실새내"
     if sta == "신촌" and line == "경의선":
         sta == "신촌역"
     if sta == "인천국제공항":
