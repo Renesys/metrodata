@@ -40,7 +40,7 @@ string_hour_map = {
     "two_ride_num": [2, "ON"],
     "twenty_three_ride_num": [23, "ON"],
     "one_alight_num": [1, "OFF"],
-    "fifteen_alight_num": [5, "OFF"],
+    "fifteen_alight_num": [15, "OFF"],
     "midnight_alight_num": [0, "OFF"],
     "seven_ride_num": [7, "ON"],
     "nine_ride_num": [9, "ON"],
