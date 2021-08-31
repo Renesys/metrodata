@@ -4,54 +4,54 @@ import json
 import datetime
 
 string_hour_map = {
-    "eighteen_alight_num": ["18", "OFF"],
-    "nineteen_alight_num": ["19", "OFF"],
-    "five_alight_num": ["05", "OFF"],
-    "fifteen_ride_num": ["15", "ON"],
-    "twenty_three_alight_num": ["23", "OFF"],
-    "eight_alight_num": ["08", "OFF"],
-    "sixteen_ride_num": ["16", "ON"],
-    "seventeen_alight_num": ["17", "OFF"],
-    "twenty_two_alight_num": ["22", "OFF"],
-    "twenty_two_ride_num": ["22", "ON"],
-    "eleven_alight_num": ["11", "OFF"],
-    "six_ride_num": ["06", "ON"],
-    "thirteen_ride_num": ["13", "ON"],
-    "four_alight_num": ["04", "OFF"],
-    "seventeen_ride_num": ["17", "ON"],
-    "fourteen_ride_num": ["14", "ON"],
-    "seven_alight_num": ["07", "OFF"],
-    "nine_alight_num": ["09", "OFF"],
-    "eighteen_ride_num": ["18", "ON"],
-    "three_alight_num": ["03", "OFF"],
-    "twelve_alight_num": ["12", "OFF"],
-    "two_alight_num": ["02", "OFF"],
-    "twenty_alight_num": ["20", "OFF"],
-    "ten_alight_num": ["10", "OFF"],
-    "thirteen_alight_num": ["13", "OFF"],
-    "one_ride_num": ["01", "ON"],
-    "four_ride_num": ["04", "ON"],
-    "sixteen_alight_num": ["16", "OFF"],
-    "five_ride_num": ["05", "ON"],
-    "fourteen_alight_num": ["14", "OFF"],
-    "six_alight_num": ["06", "OFF"],
-    "nineteen_ride_num": ["19", "ON"],
-    "ten_ride_num": ["10", "ON"],
-    "two_ride_num": ["02", "ON"],
-    "twenty_three_ride_num": ["23", "ON"],
-    "one_alight_num": ["01", "OFF"],
-    "fifteen_alight_num": ["15", "OFF"],
-    "midnight_alight_num": ["00", "OFF"],
-    "seven_ride_num": ["07", "ON"],
-    "nine_ride_num": ["09", "ON"],
-    "eight_ride_num": ["08", "ON"],
-    "twenty_one_ride_num": ["21", "ON"],
-    "twenty_ride_num": ["20", "ON"],
-    "twelve_ride_num": ["12", "ON"],
-    "twenty_one_alight_num": ["21", "OFF"],
-    "three_ride_num": ["03", "ON"],
-    "midnight_ride_num": ["00", "ON"],
-    "eleven_ride_num": ["11", "ON"]
+    "eighteen_alight_num": [18, "OFF"],
+    "nineteen_alight_num": [19, "OFF"],
+    "five_alight_num": [5, "OFF"],
+    "fifteen_ride_num": [15, "ON"],
+    "twenty_three_alight_num": [23, "OFF"],
+    "eight_alight_num": [8, "OFF"],
+    "sixteen_ride_num": [16, "ON"],
+    "seventeen_alight_num": [17, "OFF"],
+    "twenty_two_alight_num": [22, "OFF"],
+    "twenty_two_ride_num": [22, "ON"],
+    "eleven_alight_num": [11, "OFF"],
+    "six_ride_num": [6, "ON"],
+    "thirteen_ride_num": [13, "ON"],
+    "four_alight_num": [4, "OFF"],
+    "seventeen_ride_num": [17, "ON"],
+    "fourteen_ride_num": [14, "ON"],
+    "seven_alight_num": [7, "OFF"],
+    "nine_alight_num": [9, "OFF"],
+    "eighteen_ride_num": [18, "ON"],
+    "three_alight_num": [3, "OFF"],
+    "twelve_alight_num": [12, "OFF"],
+    "two_alight_num": [2, "OFF"],
+    "twenty_alight_num": [20, "OFF"],
+    "ten_alight_num": [10, "OFF"],
+    "thirteen_alight_num": [13, "OFF"],
+    "one_ride_num": [1, "ON"],
+    "four_ride_num": [4, "ON"],
+    "sixteen_alight_num": [16, "OFF"],
+    "five_ride_num": [5, "ON"],
+    "fourteen_alight_num": [14, "OFF"],
+    "six_alight_num": [6, "OFF"],
+    "nineteen_ride_num": [19, "ON"],
+    "ten_ride_num": [10, "ON"],
+    "two_ride_num": [2, "ON"],
+    "twenty_three_ride_num": [23, "ON"],
+    "one_alight_num": [1, "OFF"],
+    "fifteen_alight_num": [5, "OFF"],
+    "midnight_alight_num": [0, "OFF"],
+    "seven_ride_num": [7, "ON"],
+    "nine_ride_num": [9, "ON"],
+    "eight_ride_num": [8, "ON"],
+    "twenty_one_ride_num": [21, "ON"],
+    "twenty_ride_num": [20, "ON"],
+    "twelve_ride_num": [12, "ON"],
+    "twenty_one_alight_num": [21, "OFF"],
+    "three_ride_num": [3, "ON"],
+    "midnight_ride_num": [0, "ON"],
+    "eleven_ride_num": [11, "ON"]
 }
 
 station_num_map = {
@@ -147,48 +147,31 @@ def get_pos(sta, type):
     return res
 
 def write_csv_all(raw):
-    with open('../graph/defined_metro.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    with open('../graph/defined_metro_temp.csv', 'w', newline='', encoding='utf-8') as csvfile:
         csv_writter = csv.writer(csvfile, delimiter=',')
         csv_writter.writerow(
-            ["Line", "Station", "Time", "Year", "Month", "Hour", "Type", "Data", "Latitude", "Longitude"])
+            ["Line", "Station", "Time", "Year", "Month", "Hour", "GetOn", "GetOff", "Latitude", "Longitude"])
         for e in raw:
+            on = [0 for _ in range(24)]
+            off = [0 for _ in range(24)]
             month = str(e['use_mon'])
             sta = mod_station_name(e['sub_sta_nm'], e['line_num'])
             line = get_line(e['line_num'], sta)
             lati = get_pos(sta, 0)
             long = get_pos(sta, 1)
             for d in string_hour_map.keys():
-                data = e[d]
-                time_str = "{}-{}-01T{}:00:00Z".format(month[0:4], month[4:6], string_hour_map[d][0])
-                ridetype = string_hour_map[d][1]
-                # q = '["{}","{}","{}","{}","{}","0","0"]'.format(line, sta, time_str, ridetype, data)
+                if string_hour_map[d][1] == "ON":
+                    on[string_hour_map[d][0]] = e[d]
+                elif string_hour_map[d][1] == "OFF":
+                    off[string_hour_map[d][0]] = e[d]
+            for i in range(23):
+                hour = str(i)
+                if len(hour) == 1:
+                    hour = hour.zfill(2)
+                time_str = "{}-{}-01T{}:00:00Z".format(month[0:4], month[4:6], hour)
                 csv_writter.writerow(
-                    [line, sta, time_str, month[0:4], month[4:6], string_hour_map[d][0], ridetype, data, lati, long])
-
-
-def write_csv(raw):
-    with open('defined_metro_partial.csv', 'w', newline='', encoding='utf-8') as csvfile:
-        csv_writter = csv.writer(csvfile, delimiter=',')
-        csv_writter.writerow(
-            ["Line", "Station", "Time", "Year", "Month", "Hour", "Type", "Data", "Latitude", "Longitude"])
-        for e in raw:
-            month = str(e['use_mon'])
-            sta = e['sub_sta_nm']
-            line = get_line(e['line_num'], sta)
-            # take latest data only
-            if month == "202006":
-                for d in string_hour_map.keys():
-                    data = e[d]
-                    time_str = "{}-{}-01T{}:00:00Z".format(month[0:4], month[4:6], string_hour_map[d][0])
-                    ridetype = string_hour_map[d][1]
-                    # q = '["{}","{}","{}","{}","{}","0","0"]'.format(line, sta, time_str, ridetype, data)
-                    csv_writter.writerow(
-                        [line, sta, time_str, month[0:4], month[4:6], string_hour_map[d][0], ridetype, data, "0", "0"])
-
-
-def test():
-    for d in string_hour_map.keys():
-        print(string_hour_map[d][0])
+                    [line, sta, time_str, month[0:4], month[4:6], hour, on[i], off[i], lati, long]
+                )
 
 
 if __name__ == "__main__":
