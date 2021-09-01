@@ -4,13 +4,21 @@ import matplotlib.pyplot as plt
 import matplotlib as mat
 import numpy as np
 
+def get_days(m):
+    if m == '02':
+        return 28
+    elif m == '04' or m == '06' or m == '09' or m == '11':
+        return 30
+    else:
+        return 31
 
-def total_trend(df):
-    df['Data'] = df['GetOn'] + df['GetOff']
+def total_trend_old(df):
+    df['Data'] = df['GetOn']+ df['GetOff']
     df = df.sort_values(by=['Year', 'Month'])
     sns.set_theme(font="Malgun Gothic", rc={"axes.unicode_minus": False},\
                   style='whitegrid', palette='Paired')
     fig, ax = plt.subplots(figsize=(15, 5))
+
     res = sns.barplot(x="Year", y="Data", data=df, hue="Month",
                       estimator=np.sum, ci=None, ax=ax)
     for p in res.patches:
@@ -22,6 +30,19 @@ def total_trend(df):
                      ha="center", va="center", fontsize=10, color="black", xytext=(2,16),\
                      rotation=90, textcoords="offset points")
     plt.legend(bbox_to_anchor=(1,1.05))
+    plt.show()
+
+def total_trend(df):
+    df['Data'] = (df['GetOn'] + df['GetOff'])/30
+    df['YearMonth'] = df['Year'] + df['Month']
+    df = df.sort_values(by=['YearMonth'])
+    sns.set_theme(font="Malgun Gothic", rc={"axes.unicode_minus": False},\
+                  style='whitegrid', palette='Paired')
+    fig, ax = plt.subplots(figsize=(15, 5))
+    ax.title.set_text("수도권 전철 월별 일평균 승하차량")
+    res = sns.lineplot(x="YearMonth", y="Data", data=df,
+                      estimator=np.sum, ci=None, ax=ax)
+    plt.xticks(rotation=90)
     plt.show()
 
 def total_trend_by_month(df):
@@ -60,13 +81,7 @@ def year_trend(df, year):
                      textcoords="offset points")
     plt.show()
 
-def get_days(m):
-    if m == '02':
-        return 28
-    elif m == '04' or m == '06' or m == '09' or m == '11':
-        return 30
-    else:
-        return 31
+
 
 def station_trend(df, sta):
     df['Data'] = df['GetOn'] + df['GetOff']
