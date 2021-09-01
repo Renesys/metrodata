@@ -6,6 +6,7 @@ import numpy as np
 
 
 def total_trend(df):
+    df['Data'] = df['GetOn'] + df['GetOff']
     df = df.sort_values(by=['Year', 'Month'])
     sns.set_theme(font="Malgun Gothic", rc={"axes.unicode_minus": False},\
                   style='whitegrid', palette='Paired')
@@ -24,6 +25,7 @@ def total_trend(df):
     plt.show()
 
 def total_trend_by_month(df):
+    df['Data'] = df['GetOn'] + df['GetOff']
     df = df.sort_values(by=['Year', 'Month'])
     sns.set_theme(font="Malgun Gothic", rc={"axes.unicode_minus": False},\
                   style='whitegrid', palette='deep')
@@ -42,6 +44,7 @@ def total_trend_by_month(df):
     plt.show()
 
 def year_trend(df, year):
+    df['Data'] = df['GetOn'] + df['GetOff']
     sub = df[df['Year'] == year]
     sub = sub.sort_values(by='Month')
     sns.set_theme(font="Malgun Gothic", rc={"axes.unicode_minus": False},\
@@ -66,6 +69,7 @@ def get_days(m):
         return 31
 
 def station_trend(df, sta):
+    df['Data'] = df['GetOn'] + df['GetOff']
     df['YearMonth'] = df['Year'] + df['Month']
     df = df.sort_values(by=['YearMonth', 'Hour'])
     sub = df[df['Station'] == sta]
@@ -87,8 +91,8 @@ def station_trend(df, sta):
 
 if __name__ == '__main__':
     pd.set_option('display.width', None)
-    df = pd.read_csv('defined_metro.csv', dtype=str)
-    types = {"Data":int, "Latitude":float, "Longitude":float}
+    df = pd.read_csv('defined_metro_temp.csv', dtype=str)
+    types = {"GetOn":int, "GetOff":int, "Latitude":float, "Longitude":float}
     for key, typename in types.items():
         df[key] = df[key].astype(typename)
     while True:
