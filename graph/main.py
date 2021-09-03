@@ -106,6 +106,16 @@ def station_trend(df, sta):
     plt.xticks(rotation=90)
     plt.show()
 
+def station_type(df, time):
+    sub = df[df['Hour'] == time]
+    sns.set_theme(font="Malgun Gothic", rc={"axes.unicode_minus": False}, \
+                  style='whitegrid')
+    fig, ax = plt.subplots(figsize=(12, 12))
+    ax.title.set_text("{}시 승하차량 관계도".format(time))
+    sns.scatterplot(x='GetOn', y='GetOff', data=sub, ax=ax)
+    plt.show()
+
+
 if __name__ == '__main__':
     pd.set_option('display.width', None)
     df = pd.read_csv('defined_metro_temp.csv', dtype=str)
@@ -117,6 +127,7 @@ if __name__ == '__main__':
         print("2. 월별 전체 이용량")
         print("3. 특정년도 월별 이용량")
         print("4. 특정 역 시간대 별 / 월별 승하차량")
+        print("5. 역 특성")
         print("0. 종료")
         selection = int(input("검색 : "))
         if selection == 1:
@@ -129,6 +140,9 @@ if __name__ == '__main__':
         elif selection == 4:
             sta = input("역 이름 : ")
             station_trend(df, sta)
+        elif selection == 5:
+            time = input("시간대 : ")
+            station_type(df, time)
         elif selection == 0:
             break
 
