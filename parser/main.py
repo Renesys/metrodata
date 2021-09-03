@@ -164,7 +164,7 @@ def write_csv_all(raw):
                     on[string_hour_map[d][0]] = e[d]
                 elif string_hour_map[d][1] == "OFF":
                     off[string_hour_map[d][0]] = e[d]
-            for i in range(23):
+            for i in range(24):
                 hour = str(i)
                 if len(hour) == 1:
                     hour = hour.zfill(2)

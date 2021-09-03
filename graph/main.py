@@ -99,8 +99,10 @@ def station_trend(df, sta):
     fig.tight_layout(pad=2)
     ax[0].title.set_text("{}역 시간대별 월 평균 승하차량".format(sta))
     ax[1].title.set_text("{}역 월별 일 평균 승하차량".format(sta))
-    sns.lineplot(x="Hour", y="Data", data=sub, hue="Type", ax=ax[0])
+    sns.lineplot(x="Hour", y="GetOff", data=sub, ax=ax[0])
+    sns.lineplot(x="Hour", y="GetOn", data=sub, ax=ax[0])
     sns.lineplot(x="YearMonth", y="avg", data=sub, estimator=np.sum, ax=ax[1])
+    ax[0].legend(['하차', '승차'], loc='upper right')
     plt.xticks(rotation=90)
     plt.show()
 
