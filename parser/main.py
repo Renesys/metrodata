@@ -147,7 +147,7 @@ def get_pos(sta, type):
     return res
 
 def write_csv_all(raw):
-    with open('../graph/defined_metro_temp.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    with open('../graph/defined_metro.csv', 'w', newline='', encoding='utf-8') as csvfile:
         csv_writter = csv.writer(csvfile, delimiter=',')
         csv_writter.writerow(
             ["Line", "Station", "Time", "Year", "Month", "Hour", "GetOn", "GetOff", "Latitude", "Longitude"])

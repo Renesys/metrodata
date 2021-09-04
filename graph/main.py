@@ -1,7 +1,6 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib as mat
 import numpy as np
 
 def get_days(m):
@@ -118,7 +117,7 @@ def station_type(df, time):
 
 if __name__ == '__main__':
     pd.set_option('display.width', None)
-    df = pd.read_csv('defined_metro_temp.csv', dtype=str)
+    df = pd.read_csv('defined_metro.csv', dtype=str)
     types = {"GetOn":int, "GetOff":int, "Latitude":float, "Longitude":float}
     for key, typename in types.items():
         df[key] = df[key].astype(typename)
